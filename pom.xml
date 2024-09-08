@@ -10,11 +10,12 @@
     </parent>
     <groupId>com.codenetworkz</groupId>
     <artifactId>task-manager</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>task-manager</name>
     <description>task-manager</description>
     <properties>
         <java.version>17</java.version>
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
     </properties>
     <dependencies>
         <dependency>
@@ -27,6 +28,16 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-docker-compose</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -43,6 +54,35 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
+<!--            <version>2.5.0</version>-->
+<!--        </dependency>-->
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>annotationProcessor</scope>
@@ -56,7 +96,17 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
     </dependencies>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>

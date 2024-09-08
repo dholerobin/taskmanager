@@ -21,10 +21,14 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     private String title;
+
     private String description;
+
     @Enumerated(EnumType.STRING)
     private Status isCompleted;
+
     @Enumerated(EnumType.STRING)
     private Status isActive;
 
@@ -35,6 +39,7 @@ public class Task {
     @JsonIgnore
     @Enumerated(EnumType.STRING)
     private Status isDelete;
+    @JsonIgnore
     private LocalDateTime deleteAt;
 
     @PrePersist
@@ -43,13 +48,13 @@ public class Task {
             this.createdAt = LocalDateTime.now();
         }
         if(this.isActive == null) {
-            this.isActive = Status.Yes;
+            this.isActive = Status.YES;
         }
         if(this.isCompleted == null) {
-            this.isCompleted = Status.No;
+            this.isCompleted = Status.NO;
         }
         if(this.isDelete == null) {
-            this.isDelete = Status.No;
+            this.isDelete = Status.NO;
         }
     }
 }

@@ -1,0 +1,17 @@
+services:
+#  postgres:
+#    image: 'postgres:latest'
+#    environment:
+#      - 'POSTGRES_DB=blog'
+#      - 'POSTGRES_PASSWORD=Pa$$w0rd'
+#      - 'POSTGRES_USER=robin'
+#    ports:
+#      - '5432'
+  zipkin:
+    image: 'openzipkin/zipkin:latest'
+    ports:
+      - '9411'
+#  eureka:
+#    image: 'discovery-repository:latest'
+#    ports:
+#      - '8761'

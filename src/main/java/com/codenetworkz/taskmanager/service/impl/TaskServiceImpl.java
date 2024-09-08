@@ -43,7 +43,7 @@ public class TaskServiceImpl implements TaskService {
         task.setTitle(title);
         task.setDescription(description);
         task.setCreatedAt(LocalDateTime.now());
-        task.setIsActive(Status.Yes);
+        task.setIsActive(Status.YES);
 
         try {
              saved = taskRepository.save(task);
@@ -73,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
     public Optional<Task>  completedTask(UUID id) {
         Task completed;
         Optional<Task> oldTask = getTaskbyId(id);
-        oldTask.get().setIsCompleted(Status.Yes);
+        oldTask.get().setIsCompleted(Status.YES);
         oldTask.get().setUpdatedAt(LocalDateTime.now());
         try {
             completed = taskRepository.save(oldTask.get());
@@ -96,7 +96,7 @@ public class TaskServiceImpl implements TaskService {
                     tasks = taskRepository.findAll(Sort.by(Sort.Order.desc("createdAt")));
                 }
             }else {
-                tasks = taskRepository.findAll();
+                tasks = taskRepository.findAllAndIsDelete(Status.NO);
             }
         }catch (Exception e) {
             throw new RuntimeException("There is a problem with database connection. please try again");
@@ -107,7 +107,7 @@ public class TaskServiceImpl implements TaskService {
 
         if (filter != null && !filter.isEmpty()) {
             return tasks.stream()
-                    .filter(task -> task.getIsDelete().equals("N"))
+                    .filter(task -> task.getIsDelete().equals(Status.NO))
                     .filter(task -> task.getTitle().contains(filter))
                     .collect(Collectors.toList());
         }
@@ -120,7 +120,7 @@ public class TaskServiceImpl implements TaskService {
     public Optional<Task>  getTaskbyId(UUID id) {
         Optional<Task> oldTask;
         try {
-            oldTask = taskRepository.findByIdAndIsDelete(id, Status.No);
+            oldTask = taskRepository.findByIdAndIsDelete(id, Status.NO);
         }catch (Exception e) {
             throw new RuntimeException("There is a problem with database connection. please try again");
         }
@@ -149,9 +149,9 @@ public class TaskServiceImpl implements TaskService {
     public Optional<Task> deleteTask(UUID id) {
         Optional<Task> deleted;
         Optional<Task> oldTask = getTaskbyId(id);
-        oldTask.get().setIsActive(Status.No);
-        oldTask.get().setIsCompleted(Status.Yes);
-        oldTask.get().setIsDelete(Status.Yes);
+        oldTask.get().setIsActive(Status.NO);
+        oldTask.get().setIsCompleted(Status.YES);
+        oldTask.get().setIsDelete(Status.YES);
         try {
             deleted = Optional.of(taskRepository.save(oldTask.get()));
         }catch (Exception e) {
